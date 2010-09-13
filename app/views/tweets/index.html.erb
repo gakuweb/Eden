@@ -1,3 +1,5 @@
+<div class="tweets">
+<h2>最新のつぶやき</h2>
 <ul>
 <%- @tweets.each do |t| -%>
   <li>
@@ -7,3 +9,17 @@
   </li>
 <%- end -%>
 </ul>
+</div>
+
+<div class="tweets">
+<h2>人気のつぶやき</h2>
+<ul>
+<%- @tweets.each do |t| -%>
+  <li>
+  <%= image_tag(t.profile_image_url, :size => "25x25") %>
+    @<%= t.user %> : 
+    <%= t.text -%>
+  </li>
+<%- end -%>
+</ul>
+</div>
