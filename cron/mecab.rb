@@ -1,54 +1,43 @@
-require "rubygems"
-require "rubytter"
-require "open3"
+require "MeCab"
 
 #引数で与えられた文章を形態素解析する
-def mecab(text)
-  ret=[]
-  Open3.popen3("/usr/local/bin/mecab") do |stdin,stdout,stderr|
-    stdin.puts text
-    stdin.close
-    stdout.each do |line|
-      ret.push line
-	end
+def extract_nouns(sentence)
+  mecab = MeCab::Tagger.new(ARGV.join(" "))
+  node = mecab.parseToNode(sentence)
+
+  nouns = []
+  while node do
+    features = node.feature.split(",");
+    kind = features.first
+    if kind == "名詞"
+      nouns.push(node.surface)
+    end 
+    node = node.next
   end
-  ret.pop
-  return ret
+  return nouns
 end
 
-tweets=Tweet.all #Tweet DBに保存されている情報を取得
-
-tweets.each do |a|
-  ret=mecab(a.text)#解析結果を格納する
-  ret.each do |b|
-    if b=~/.+名詞.+/#品詞が名詞の場合の処理
-      b=b.split(/名詞/)
-      nomen=b[0]   #品詞が名詞である単語をnomenに格納
-      
-      #word　DB　に登録する
-      word=Word.new
-      word.word_name=nomen
-      word.word_status_id=a.status_id
-      word.count=1
-      
-      #tweetword DB に保存
-      #新規保存の場合
-      if word.save
-        tweetword=TweetWord.new
-        tweetword.tweet_id=a.id
-        tweetword.word_id=word.id
-        tweetword.save
-      
-      #既存する場合
-      else 
-        aaaa=Word.find_by_word_name(nomen)
-        tweetword=TweetWord.new
-        tweetword.tweet_id=a.id
-        tweetword.word_id=aaaa.id
-        tweetword.save
-        aaaa.count=aaaa.count+1
-        aaaa.save
-      end      
+Tweet.all.each do |tweet|
+  nouns = extract_nouns(tweet.text)
+  nouns.each do |noun|
+    word = Word.find_by_name(noun)
+    unless word
+      word = Word.new(
+        :name  => noun,
+        :count => 0
+      )
     end
+    word.count += 1
+    if word.save
+      puts word.name
+    else
+      puts "failed"
+    end
+
+    tweet_word = TweetWord.new(
+      :tweet_id => tweet.id,
+      :word_id  => word.id
+    )
+    tweet_word.save
   end
 end
