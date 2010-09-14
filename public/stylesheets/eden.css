@@ -14,6 +14,10 @@ ul {
   margin: 0 auto;
 }
 
+.tweets {
+  margin-bottom: 30px;
+}
+
 #header,
 #footer {
   text-align: center;
