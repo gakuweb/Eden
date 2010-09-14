@@ -1,8 +1,27 @@
-<% @tweets.each do |a|%>
-<%= image_tag(a.profile_image_url,:size=>"20x20")%>
-<%=a.user%>
-<%=a.text%>
-<%=a.status_id%>
+<% @tweetword.each do |a|%>
+tweet_id：<%=a.tweet_id%>
+<%aaaa=Word.find_by_id(a.word_id)%>
+word_id：<%=a.word_id%>
  <br />
 <%end%>
+<br />
+
+<% @word.each do |a|%>
+単語ID     ：<%=a.id%>
+単語名称  ：<%=a.word_name%>
+出現回数  ：<%=a.count%>
+<br />
+
+<%end%>
+<br />
+
+<% @tweets.each do |a|%>
+<%=a.id%>
+<%=a.text%><br />
+
+
+<%end%>
+
+
+
   

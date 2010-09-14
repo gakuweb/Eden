@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100913065629) do
+ActiveRecord::Schema.define(:version => 20100914063746) do
+
+  create_table "tweet_words", :force => true do |t|
+    t.integer  "tweet_id"
+    t.integer  "word_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tweets", :force => true do |t|
     t.string   "user"
@@ -18,6 +25,14 @@ ActiveRecord::Schema.define(:version => 20100913065629) do
     t.datetime "posted_at"
     t.string   "profile_image_url"
     t.integer  "status_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "words", :force => true do |t|
+    t.string   "word_name"
+    t.integer  "word_status_id"
+    t.integer  "count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
