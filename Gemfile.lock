@@ -44,11 +44,7 @@ GEM
       mime-types
       treetop (>= 1.4.5)
     mime-types (1.16)
-<<<<<<< HEAD
     oauth (0.4.1)
-=======
-    oauth (0.4.0)
->>>>>>> 5160d60c93548136f130619d09686b39f4214b20
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
