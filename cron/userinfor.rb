@@ -1,56 +1,51 @@
-require "oauth"
+require "rubygems"
+require "twitter"
 require "rubytter"
 
-
-CONSUMER_KEY    = "3UKpPByx3WxnuKUByK53Yw"
-CONSUMER_SECRET = "BjKHnnAOSs8mrgfXbHbCqTJPq4Swom3q7BIIWG00Rs"
-ACCESS_TOKEN    = "31145622-R7rA5BNJNIvu1s4RiAeAKePkXdjijlIfdDJxuh1U7"
-ACCESS_SECRET   = "BOqUUymhB09XKI7R2NYdAhbRBSTjPdFcrhaaUuPM"
-
-def create_rubytter
-  consumer = OAuth::Consumer.new(
-    CONSUMER_KEY,
-    CONSUMER_SECRET,
-    :site => 'http://api.twitter.com'
-  )
-  token = OAuth::AccessToken.new(
-    consumer,
-    ACCESS_TOKEN,
-    ACCESS_SECRET
-  )
-  OAuthRubytter.new(token)
+#アカウント同志社が発言したものを抽出
+def search_doshisha_tweet
+	timeline=Twitter.timeline("doshisha")		#doshishaのタイムラインを取得する
+	timeline.each do |doshisha|
+		tweet=Tweet.new
+		tweet.text= doshisha[:text]
+		tweet.status_id= doshisha[:id]
+		tweet.user=doshisha[:user][:screen_name]
+		tweet.profile_image_url=doshisha[:user][:profile_image_url]
+		tweet.posted_at=doshisha[:created_at]
+		tweet.save
+	end
 end
 
-def save_tweets(keyword, param, is_oauth)
-  rubytter = (is_oauth) ? create_rubytter : Rubytter.new
-
-  start_page = param[:page] || 1
-  (start_page..9).each do |i|
-    puts i
-    param[:page] = i
-    tweets = rubytter.search(keyword, param)
-    tweets.each do |t|
-      tweet = Tweet.new
-      tweet.text              = t.text
-      tweet.user              = t.user.screen_name
-      tweet.profile_image_url = t.user.profile_image_url
-      tweet.posted_at         = t.created_at
-      tweet.status_id         = t.id
-      if tweet.save
-        puts tweet.user
-      else
-        puts "failed."
-      end
-    end
-    sleep 3
-  end
+#同志社を含むツイートを抽出
+def search_word_doshisha
+	rubytter=Rubytter.new
+	tweets=rubytter.search("同志社")
+	tweets.each do |person|
+		tweet = Tweet.new	
+		tweet.text = person.text
+		tweet.user = person.user.screen_name
+		tweet.profile_image_url = person.user.profile_image_url 		
+		tweet.posted_at= person.created_at
+	    tweet.status_id = person.id
+		tweet.save
+	end
 end
 
-
-keywords = ["同志社", "Doshisha"]
-query = {
-  :rpp  => "100"
-}
-keywords.each do |keyword|
-  save_tweets(keyword, query, 1)
+#doshishaを含むツイートを抽出
+def search_word_Doshisha
+	rubytter=Rubytter.new
+	tweets=rubytter.search("doshisha")
+	tweets.each do |person|
+		tweet = Tweet.new	
+		tweet.text = person.text
+		tweet.user = person.user.screen_name
+		tweet.profile_image_url = person.user.profile_image_url 		
+		tweet.posted_at= person.created_at
+	    tweet.status_id = person.id
+		tweet.save
+	end
 end
+
+search_doshisha_tweet
+search_word_doshisha
+search_word_Doshisha

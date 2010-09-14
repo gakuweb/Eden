@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  word_name: MyString
+  word_status_id: 1
+
+two:
+  word_name: MyString
+  word_status_id: 1
