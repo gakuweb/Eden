@@ -21,25 +21,36 @@ def create_rubytter
   OAuthRubytter.new(token)
 end
 
-def save_tweets
-  # no use OAuth
-  # rubytter = create_rubytter
-  rubytter = Rubytter.new
-  tweets = rubytter.search("doshisha")
+def save_tweets(keyword, param, is_oauth)
+  rubytter = (is_oauth) ? create_rubytter : Rubytter.new
 
-  tweets.each do |t|
-    tweet = Tweet.new
-    tweet.text              = t.text
-    tweet.user              = t.user.screen_name
-    tweet.profile_image_url = t.user.profile_image_url
-    tweet.posted_at         = t.created_at
-    tweet.status_id         = t.id
-    if tweet.save
-      puts tweet.user
-    else
-      puts "failed."
+  start_page = param[:page] || 1
+  (start_page..9).each do |i|
+    puts i
+    param[:page] = i
+    tweets = rubytter.search(keyword, param)
+    tweets.each do |t|
+      tweet = Tweet.new
+      tweet.text              = t.text
+      tweet.user              = t.user.screen_name
+      tweet.profile_image_url = t.user.profile_image_url
+      tweet.posted_at         = t.created_at
+      tweet.status_id         = t.id
+      if tweet.save
+        puts tweet.user
+      else
+        puts "failed."
+      end
     end
+    sleep 3
   end
 end
 
-save_tweets
+
+keywords = ["同志社", "Doshisha"]
+query = {
+  :rpp  => "100"
+}
+keywords.each do |keyword|
+  save_tweets(keyword, query, 1)
+end

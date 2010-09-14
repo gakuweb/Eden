@@ -7,19 +7,69 @@ ul {
   list-style-type: none;
 }
 
-#main,
-#header,
-#footer {
-  width: 960px;
-  margin: 0 auto;
+body {
+  font-size: 12px;
 }
 
-.tweets {
-  margin-bottom: 30px;
+h1,
+h2,
+h3 {
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 40px;
+}
+h2 {
+  font-size: 12px;
+}
+
+h3 {
+  width: 100px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#main,
+#header,
+#footer,
+#topbar {
+  width: 920px;
+  margin: 0 auto;
 }
 
 #header,
 #footer {
   text-align: center;
-  background-color: #ccc;
+}
+
+#topbar-outer {
+  background-color: #AEE1FA;
+}
+#topbar {
+  padding: 5px 0;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+#header {
+  margin-bottom: 30px;
+}
+
+#footer {
+  margin-top: 30px;
+}
+
+
+#main {
+  padding: 20px;
+  border-radius: 10px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 10px;
+  background-color: #eee;
+}
+
+.tweets {
+  margin-bottom: 30px;
 }
