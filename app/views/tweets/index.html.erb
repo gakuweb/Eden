@@ -1,27 +1,9 @@
-<% @tweetword.each do |a|%>
-tweet_id：<%=a.tweet_id%>
-<%aaaa=Word.find_by_id(a.word_id)%>
-word_id：<%=a.word_id%>
- <br />
+<% @arrayword.each do |a|%>
+  <%unless a[0]==nil%>
+    単語ID     ：<%=a[0]%>
+    単語名称  ：<%=a[1]%>
+    出現回数  ：<%=a[2]%>
+    単語長さ   :<%=a[1].length%>
+    <br />
+  <%end%>
 <%end%>
-<br />
-
-<% @word.each do |a|%>
-単語ID     ：<%=a.id%>
-単語名称  ：<%=a.word_name%>
-出現回数  ：<%=a.count%>
-<br />
-
-<%end%>
-<br />
-
-<% @tweets.each do |a|%>
-<%=a.id%>
-<%=a.text%><br />
-
-
-<%end%>
-
-
-
-  
