@@ -1,6 +1,5 @@
 require "MeCab"
 
-#引数で与えられた文章を形態素解析する
 def extract_nouns(sentence)
   mecab = MeCab::Tagger.new(ARGV.join(" "))
   node = mecab.parseToNode(sentence)
