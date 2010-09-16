@@ -1,12 +1,24 @@
-<div class="tweets">
-<h3>最新のつぶやき</h3>
-<ul>
-<%- @tweets.each do |t| -%>
-  <li>
-    <%= image_tag(t.profile_image_url, :size => "25x25") %>
-    @<%= t.user %> : 
-    <%= t.text -%>
-  </li>
-<%- end -%>
-</ul>
+<div class="words">
+  <%- @words.each do |word| -%>
+    <%= link_to word.name, :word => word.name %>
+  <%- end -%>
 </div>
+
+<h3>
+  <%= params[:word] ? params[:word] + "を含むつぶやき" : "最新のつぶやき" %>
+</h3>
+<ul class="tweets">
+  <%- @tweets.each do |tweet| -%>
+    <li>
+      <%= image_tag(tweet.profile_image_url, :size=>"20x25") %>
+      @<%= tweet.user %>
+      <%= tweet.text %>
+    </li>
+  <%- end -%>
+</ul>
+
+<script type="text/javascript">
+  twttr.anywhere(function(twitter){
+    twitter.hovercards();
+  });
+</script>

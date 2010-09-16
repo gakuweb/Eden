@@ -10,7 +10,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100914063746) do
+ActiveRecord::Schema.define(:version => 20100915050626) do
+
+  create_table "taggings", :force => true do |t|
+    t.integer "tag_id"
+    t.integer "taggable_id"
+    t.string  "taggable_type"
+  end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type"], :name => "index_taggings_on_tag_id_and_taggable_id_and_taggable_type"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
+
+  add_index "tags", ["name"], :name => "index_tags_on_name"
+
+  create_table "tweet_ids", :force => true do |t|
+    t.integer  "tweet_id"
+    t.integer  "word_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tweet_words", :force => true do |t|
     t.integer  "tweet_id"
@@ -30,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20100914063746) do
   end
 
   create_table "words", :force => true do |t|
+    t.integer  "word_status_id"
     t.string   "name"
     t.integer  "count"
     t.datetime "created_at"
