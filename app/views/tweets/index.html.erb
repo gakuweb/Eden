@@ -1,9 +1,26 @@
-<% @arrayword.each do |a|%>
-  <%unless a[0]==nil%>
-    単語ID     ：<%=a[0]%>
-    単語名称  ：<%=a[1]%>
-    出現回数  ：<%=a[2]%>
-    単語長さ   :<%=a[1].length%>
-    <br />
+<%count=0%><!--行カウンタ-->
+<ul id="linkifyUsers">
+  <% @arrayword.each do |a|%>
+    <%unless a[0]==nil%>
+      <li> <font color=red size=6pt>単語名称  ：<%=a[1]%></font></li>
+      <font color = blue size = 4pt>出現回数<%=a[2]%></font><br />
+      <font color=green size=4pt>この単語を含むツイート</font><br /><br />
+      <%i=0%><!--列カウンタ-->
+      <%while i < @max%>
+        <%unless @tweetuser[count][i]==nil%>
+          <%=image_tag "#{@tweetimage[count][i]}",{:width=>20,:height=>20}%><br />
+           @<%=@tweetuser[count][i]%><br />
+          <%=@tweettext[count][i]%><br /><br /><br />
+        <%end%>
+        <%i += 1%>
+      <%end%>
+      <%count += 1%>
+    <%end%>
   <%end%>
-<%end%>
+</ul>
+
+<script type="text/javascript">
+  twttr.anywhere(function(twitter) {
+  twitter.linkifyUsers();
+  twitter("#linkifyUsers").linkifyUsers();});
+</script>
