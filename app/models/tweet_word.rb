@@ -1,4 +1,4 @@
 class TweetWord < ActiveRecord::Base
-  has_many :tweets
-  has_many :words
+  belongs_to :tweet
+  belongs_to :word
 end

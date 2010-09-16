@@ -1,24 +1,26 @@
-<%- count = 0 -%><!--行カウンタ-->
 <ul id="linkifyUsers">
-  <% @arrayword.each do |a| %>
-      <li style="color: red; font-size: 14px">単語名称  ：<%= a.name %></li>
-      <font color = blue size = 4pt>出現回数<%= a.count %><br />
-      <font color=green size=4pt>この単語を含むツイート</font><br /><br />
-      <%i=0%><!--列カウンタ-->
-      <%while i < @max%>
-        <%unless @tweetuser[count][i]==nil%>
-          <%=image_tag "#{@tweetimage[count][i]}",{:width=>20,:height=>20}%><br />
-           @<%=@tweetuser[count][i]%><br />
-          <%=@tweettext[count][i]%><br /><br /><br />
-        <%end%>
-        <%i += 1%>
-      <%end%>
-      <%count += 1%>
-  <%end%>
+  <%- @words.each do |word| -%>
+    <li>
+    <p style="color: red; font-size: 14px">単語名称  ：<%= word[:name] %></p>
+    <p>出現回数<%= word[:count] %></p>
+    <p>この単語を含むツイート</p>
+    <ul>
+      <%- word.tweets.each do |tweet| -%>
+        <li>
+        <%= image_tag(tweet.profile_image_url, :size=>"20x25") %>
+        @<%= tweet.user %>
+        <%= tweet.text %>
+        </li>
+      <%- end -%>
+    </ul>
+  <%- end -%>
 </ul>
 
 <script type="text/javascript">
   twttr.anywhere(function(twitter) {
   twitter.linkifyUsers();
   twitter("#linkifyUsers").linkifyUsers();});
+  twttr.anywhere(function(twitter){
+    twitter.hovercards();
+  });
 </script>

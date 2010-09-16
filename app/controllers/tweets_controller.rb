@@ -1,59 +1,27 @@
 class TweetsController < ApplicationController
   def index
-    @tweets       = Tweet.find(:all, :order => 'posted_at DESC', :limit => 100)
-    @tweets_count = Tweet.count(:all)
-    words         = Word.find(:all,:order => 'count DESC')
-    @words        = []
-    @tweetword    = TweetWord.all
-    @arrayword    = Array.new(Word.count(:all)).map{ Array.new(3) }  #形態素解析結果に対してフィルター処理を施した単語を格納する２次元配列
-    
-    @count  = 0 #@arrayword[]の長さを表す変数
-    @max    = 0 #@arrayword[][]の長さを表す変数
-    
-  @words.each do |word|
-    #指定した単語を除外する処理
-    if word.name =~ /同志社/ || #”同志社”を含む単語
-      word.name =~ /\d+/ || #数字だけの単語
-      word.name =~ /[a-z]+/ || #アルファベットだけの単語
+    @words = []
+    words = Word.find(:all,:order => 'count DESC')
+    words.each do |word|
+      next unless is_meaningful(word)
+      @words.push(word)
+    end
+  end
+
+  def is_meaningful(word)
+    if word.count < 10 ||
+      word.name.length < 6 ||
+      word.name =~ /同志社/ ||
+      word.name =~ /\d+/ ||
+      word.name =~ /[a-z]+/ ||
       word.name =~ /[A-Z]+/ ||
       word.name =~ /[Ａ-Ｚ]+/ ||
       word.name =~ /[ａ-ｚ]+/ ||
-      word.name =~ /[あ-ん]+/ && word.name.length <= 6 || #ひらがなのみの単語でかつバイト長が6バイト以下の単語
-      word.name =~ /[ア-ン]+/ && word.name.length <= 6 || #カタカナのみからなる単語でかつバイト長が６バイト以下の単語を除外
-      word.name.length < 6 ||
-      word.count < 10
-      next
+      word.name =~ /[あ-ん]+/ && word.name.length <= 6 ||
+      word.name =~ /[ア-ン]+/ && word.name.length <= 6
+      return false
+    else
+      return true
     end
-    
-    @words.push(word)
-    
-#後の@tweettext,@tweetuser,@tweetimageの配列を設定するために使用
-     if @max < word.count
-       @max = word.count
-     end
-  end
-  
-
-#site上で指定した単語を含むツイート、ユーザ、アイコンを表示させるための準備
-  count        = 0
-  arraycount   = 0
-  @tweettext   = Array.new(@count).map{Array.new(@max)}   #ツイートが保存される
-  @tweetuser   = Array.new(@count).map{Array.new(@max)}   #ツイートの所持者が保存される
-  @tweetimage  = Array.new(@count).map{Array.new(@max)}  #ツイートの所持者のアイコンが保存される
-
-#フィルターにかからなかった単語の数だけ以下を実行
-  @arrayword.each do |b|
-    searchid = b[0] #Word DB の主キーをsearchidへ
-    #TweetWord DB のword_id=searchid　となるデータを検索、一致するデータ個数だけ以下を実行
-    TweetWord.find(:all,:conditions => {:word_id => searchid}).each do |c|
-      tweet = Tweet.find_by_id(c.tweet_id)
-      @tweettext[count][arraycount] = tweet.text
-      @tweetuser[count][arraycount] = tweet.user
-      @tweetimage[count][arraycount] = tweet.profile_image_url
-      arraycount +=1
-    end
-    arraycount = 0
-    count += 1
-  end    
   end
 end
