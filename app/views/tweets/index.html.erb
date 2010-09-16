@@ -1,9 +1,8 @@
-<%count=0%><!--行カウンタ-->
+<%- count = 0 -%><!--行カウンタ-->
 <ul id="linkifyUsers">
-  <% @arrayword.each do |a|%>
-    <%unless a[0]==nil%>
-      <li> <font color=red size=6pt>単語名称  ：<%=a[1]%></font></li>
-      <font color = blue size = 4pt>出現回数<%=a[2]%></font><br />
+  <% @arrayword.each do |a| %>
+      <li style="color: red; font-size: 14px">単語名称  ：<%= a.name %></li>
+      <font color = blue size = 4pt>出現回数<%= a.count %><br />
       <font color=green size=4pt>この単語を含むツイート</font><br /><br />
       <%i=0%><!--列カウンタ-->
       <%while i < @max%>
@@ -15,7 +14,6 @@
         <%i += 1%>
       <%end%>
       <%count += 1%>
-    <%end%>
   <%end%>
 </ul>
 
