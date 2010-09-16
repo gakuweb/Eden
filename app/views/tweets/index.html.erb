@@ -10,7 +10,7 @@
 <ul class="tweets">
   <%- @tweets.each do |tweet| -%>
     <li>
-      <%= image_tag(tweet.profile_image_url, :size=>"20x25") %>
+      <%= image_tag(tweet.profile_image_url, :size=>"25x25") %>
       @<%= tweet.user %>
       <%= tweet.text %>
     </li>
