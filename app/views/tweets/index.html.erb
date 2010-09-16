@@ -1,25 +1,23 @@
-<ul id="linkifyUsers">
+<div class="words">
   <%- @words.each do |word| -%>
+    <%= link_to word.name, :word => word.name %>
+  <%- end -%>
+</div>
+
+<h3>
+  <%= params[:word] ? params[:word] + "を含むつぶやき" : "最新のつぶやき" %>
+</h3>
+<ul class="tweets">
+  <%- @tweets.each do |tweet| -%>
     <li>
-    <p style="color: red; font-size: 14px">単語名称  ：<%= word[:name] %></p>
-    <p>出現回数<%= word[:count] %></p>
-    <p>この単語を含むツイート</p>
-    <ul>
-      <%- word.tweets.each do |tweet| -%>
-        <li>
-        <%= image_tag(tweet.profile_image_url, :size=>"20x25") %>
-        @<%= tweet.user %>
-        <%= tweet.text %>
-        </li>
-      <%- end -%>
-    </ul>
+      <%= image_tag(tweet.profile_image_url, :size=>"20x25") %>
+      @<%= tweet.user %>
+      <%= tweet.text %>
+    </li>
   <%- end -%>
 </ul>
 
 <script type="text/javascript">
-  twttr.anywhere(function(twitter) {
-  twitter.linkifyUsers();
-  twitter("#linkifyUsers").linkifyUsers();});
   twttr.anywhere(function(twitter){
     twitter.hovercards();
   });
