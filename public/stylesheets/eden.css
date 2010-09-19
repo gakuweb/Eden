@@ -2,19 +2,57 @@
 *         { margin: 0; padding: 0; }
 ul        { list-style-type: none; }
 
+/* size */
+#how-to   { height: 150px; }
+
+#main,
+#header,
+#menu,
+#footer,
+#topbar   { width: 920px; }
+#menu>li  { width: 150px; }
+#how-to>li{ width: 260px; }
+h1        { width: 30%; }
+h2        { width: 70%; }
+
+/* border */
+#main     { border: solid 2px #aaa; }
+#menu>li  {
+    border-left: solid 2px #aaa;
+    border-top:  solid 2px #aaa;
+    border-right:solid 2px #aaa; }
+#bread    { border-bottom: solid 2px #aaa; }
+
 
 /* margin */
+#main,
+#header,
+#menu,
+#footer,
+#topbar   { margin: 0 auto; }
+#post-box,
+#bread,
+#how-to,
 .words    { margin-bottom: 30px; }
 #main h3  { margin-bottom: 10px; }
+#menu>li:first-child
+          { margin-left: 30px; }
+#menu>li  { margin-right: 5px; }
+#how-to>li{ margin: 0 10px; }
 
 /* padding */
+#menu>li>a{ padding: 5px; }
+#how-to>li{ padding: 10px; } 
 .words    { padding: 30px; }
-.words > a
-          { padding: 10px; }
-
+.words > a{ padding: 10px; }
 
 /* float */
 .clear    { clear: both; }
+h1,
+h2,
+#menu>li,
+#how-to>li{ float: left; }
+#menu>li>a{ display: block; }
 
 /* font */
 body      { font-size: 12px; }
@@ -22,28 +60,21 @@ h1        { font-size: 40px; }
 h2        { font-size: 12px; }
 h3        { font-size: 20px; }
 h1,
-h2        i{ font-weight: normal; }
+h2        { font-weight: normal; }
+#menu>li,
+#footer   { text-align: center; }
+h2,
+#topbar   { text-align: right; }
 
-#main,
-#header,
-#footer,
-#topbar {
-  width: 920px;
-  margin: 0 auto;
-}
+h1 a,
+h1 a:hover,
+h1 a:visited
+          { text-decoration: none; }
 
-#header,
-#footer {
-  text-align: center;
-}
 
-#topbar-outer {
-  background-color: #AEE1FA;
-}
 #topbar {
   padding: 5px 0;
   margin-bottom: 20px;
-  text-align: right;
 }
 
 #header {
@@ -69,6 +100,16 @@ h2        i{ font-weight: normal; }
 
 
 /* radius */
+#menu>li  {
+  border-radius:          10px 10px 0 0;
+  -moz-border-radius:     10px 10px 0 0;
+  -webkit-border-radius:  10px 10px 0 0;
+}
+#how-to>li {
+  border-radius:          10px;
+  -moz-border-radius:     10px;
+  -webkit-border-radius:  10px;
+}
 .words    {
   border-radius:          30px;
   -moz-border-radius:     30px;
@@ -77,4 +118,9 @@ h2        i{ font-weight: normal; }
 
 
 /* color */
-.words    { background-color: #fff; }
+.words        { background-color: #fff; }
+#topbar-outer { background-color: #AEE1FA; }
+#menu>li      { background-color: #ddd; }
+#menu>li>a:hover
+              { background-color: #bbb; }
+#how-to>li    { background-color: #fff; }
