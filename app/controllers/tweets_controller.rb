@@ -10,8 +10,8 @@ class TweetsController < ApplicationController
     end
 
     @tweets = params[:word] ?
-      Word.find(:first, :conditions => ['name = ?', params[:word]]).tweets.find(:all, :order =>:posted_at, :limit => 20) :
-      Tweet.find(:all, :order => :posted_at, :limit => 20)
+      Word.find(:first, :conditions => ['name = ?', params[:word]]).tweets.find(:all, :order =>:posted_at, :limit => 10) :
+      Tweet.find(:all, :order => :posted_at, :limit => 10)
   end
 
   def is_meaningful(word)
