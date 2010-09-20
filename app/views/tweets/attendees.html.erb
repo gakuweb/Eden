@@ -1,4 +1,4 @@
-doshisha_nowをフォローしているユーザ<br>
+<p>doshisha_nowをフォローしているユーザ<p><br>
 <% @friends.each do |person|%>
   <% infor = Twitter.user(person)%>
   <%= image_tag (infor[:profile_image_url], :size => "25x25")%>  

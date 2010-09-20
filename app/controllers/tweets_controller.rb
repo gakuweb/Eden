@@ -13,9 +13,7 @@ class TweetsController < ApplicationController
       Word.find(:first, :conditions => ['name = ?', params[:word]]).tweets.find(:all, :order =>:posted_at, :limit => 10) :
       Tweet.find(:all, :order => :posted_at, :limit => 10)
 
-      token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
- 		  rubytter = OAuthRubytter.new(token)
- 		  twitter_user_information = rubytter.user(session[:user_id])
+      twitter_user_information = rubytter
  		  @twitter_user_photo_url = twitter_user_information[:profile_image_url]
  		  @twitter_user_screen_name = twitter_user_information[:screen_name]
   end
@@ -98,18 +96,29 @@ class TweetsController < ApplicationController
       text = params[:tweettext]
       rubytter.update(text)
     end
-    redirect_to :action => :index
-    
+    redirect_to :action => :index    
   end
 
   def attendees
     @friends = Twitter.follower_ids("doshisha_now")
-    token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
- 		rubytter = OAuthRubytter.new(token)
- 	  twitter_user_information = rubytter.user(session[:user_id])
- 		@twitter_user_photo_url = twitter_user_information[:profile_image_url]
+    twitter_user_information = rubytter
+    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
  		@twitter_user_screen_name = twitter_user_information[:screen_name]
 
   end
+
+  def opinion
+    twitter_user_information = rubytter
+    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
+ 		@twitter_user_screen_name = twitter_user_information[:screen_name]
+    
+  end
+
+  def rubytter
+      token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
+ 		  rubytter = OAuthRubytter.new(token)
+ 		  return rubytter.user(session[:user_id])
+  end
+
 
 end

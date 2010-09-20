@@ -67,7 +67,7 @@ end
 
 
 screen_name = "doshisha"
-keywords = ["同志社", "Doshisha"]
+keywords = ["同志社", "Doshisha","#doshisha_now"]
 query = {
   :rpp  => "100"
 }
