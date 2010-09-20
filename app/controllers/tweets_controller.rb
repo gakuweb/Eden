@@ -97,4 +97,9 @@ class TweetsController < ApplicationController
  			rubytter = OAuthRubytter.new(token)
     end
   end
+
+  def attendees
+    @friends = Twitter.follower_ids("doshisha_now")
+  end
+
 end
