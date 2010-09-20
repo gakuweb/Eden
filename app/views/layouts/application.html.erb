@@ -22,6 +22,13 @@
           同志社なうは、Twitterを使い、同志社大学に対する意見や要望を集め、<br />
           皆で大学を良くしていくための情報共有サービスです。
         </h2>
+        <h2>
+          <%if session[:oauth] %>
+          ログイン中
+          <%= image_tag (@twitter_user_photo_url, :size => "20x20")%>
+          @<%= @twitter_user_screen_name%>          
+        <% end %>
+      </h2>
         <div class="clear"></div>
       </div>
     </div>
