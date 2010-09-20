@@ -100,6 +100,12 @@ class TweetsController < ApplicationController
 
   def attendees
     @friends = Twitter.follower_ids("doshisha_now")
+    token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
+ 		rubytter = OAuthRubytter.new(token)
+ 	  twitter_user_information = rubytter.user(session[:user_id])
+ 		@twitter_user_photo_url = twitter_user_information[:profile_image_url]
+ 		@twitter_user_screen_name = twitter_user_information[:screen_name]
+
   end
 
 end
