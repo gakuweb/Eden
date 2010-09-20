@@ -31,6 +31,11 @@
       <li><%= link_to "同志社なうとは!?", :action => :index %></li>
       <li><%= link_to "意見リスト", :action => :index %></li>
       <li><%= link_to "参加者リスト", :action=> :index %></li>
+      <% unless session[:oauth] %>
+        <li><%= link_to "ログイン", :action => :oauth %></li>
+      <% else %>
+        <li><%= link_to "ログアウト", :action => :logout %></li>
+      <% end %>
     </ul>
     <div class="clear"></div>
 
@@ -39,7 +44,7 @@
         <li>
           <h3>1. Twitterで同志社なうをフォローしよう！</h3>
           <p>同志社なうをフォローすると、みんなのつぶやいた意見がTwitterに届くよ！</p>
-          <%= link_to "Twitterでフォロー", "http://twitter.com/doshisha_now" %>
+          <p>@doshisha_now</p>
         </li>
         <li>
           <h3>2. 意見を気軽につぶやいてみんなで共有しよう！</h3>
@@ -57,9 +62,8 @@
       <div id="bread">
         <%= link_to "HOME", root_url %> &gt;
       </div>
-
+      <div id = "connectButton"></div>
       <div id="post-box"></div>
-
       <%= yield %>
     </div>
 
@@ -71,10 +75,11 @@
 
     <script type="text/javascript">
       twttr.anywhere(function(twitter) {
-          twitter("#post-box").tweetBox({
+                   twitter("#post-box").tweetBox({
             label: "意見をつぶやく",
             defaultContent: ""
-          });
+            });
+    twitter.hovercards();                   
       });
     </script>
   </body>

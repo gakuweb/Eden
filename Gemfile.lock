@@ -86,6 +86,8 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_taggable
+  json
+  oauth
   rails (= 3.0.0)
   rubytter
   sqlite3-ruby
