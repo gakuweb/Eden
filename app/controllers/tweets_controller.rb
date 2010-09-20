@@ -95,7 +95,11 @@ class TweetsController < ApplicationController
     if session[:oauth]
       token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
  			rubytter = OAuthRubytter.new(token)
+      text = params[:tweettext]
+      rubytter.update(text)
     end
+    redirect_to :action => :index
+    
   end
 
   def attendees

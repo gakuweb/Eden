@@ -56,7 +56,7 @@
         <li>
           <h3>2. 意見を気軽につぶやいてみんなで共有しよう！</h3>
           <p>意見をつぶやくと、参加者みんなにつぶやきが届いて意見をもらえるよ！</p>
-          <%= link_to "意見をつぶやく", :action => :index, :anchor => "post-box" %>
+          <%= link_to "意見をつぶやく", :action => :index, :anchor => "tweetbox" %>
         </li>
         <li>
           <h3>3. 他の人の意見を見て、どんどん返信しよう！</h3>
@@ -71,6 +71,14 @@
       </div>
       <div id = "connectButton"></div>
       <div id="post-box"></div>
+      <div id = "tweetbox">
+        <p>意見をつぶやく</p>
+        <% form_tag :action => 'tweet' do |text|%>
+          <%= text_area_tag("tweettext","", :cols => 50) %>
+          <%=submit_tag "Tweet"%>
+        <% end %>     
+      
+      </div>
       <%= yield %>
     </div>
 
@@ -82,10 +90,10 @@
 
     <script type="text/javascript">
       twttr.anywhere(function(twitter) {
-                   twitter("#post-box").tweetBox({
-            label: "意見をつぶやく",
-            defaultContent: ""
-            });
+        //           twitter("#post-box").tweetBox({
+          //  label: "意見をつぶやく",
+           // defaultContent: ""
+           // });
     twitter.hovercards();                   
       });
     </script>
