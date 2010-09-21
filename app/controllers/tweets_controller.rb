@@ -109,11 +109,13 @@ class TweetsController < ApplicationController
 
   def attendees
     @attendees = Opinion.all
-      if session[:oauth]
-        twitter_user_information = rubytterinfor
- 		    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
- 		    @twitter_user_screen_name = twitter_user_information[:screen_name]
-      end
+   
+
+    if session[:oauth]
+     twitter_user_information = rubytterinfor
+ 	   @twitter_user_photo_url = twitter_user_information[:profile_image_url]
+     @twitter_user_screen_name = twitter_user_information[:screen_name]
+    end
   end
 
   def opinion
