@@ -23,11 +23,11 @@
           皆で大学を良くしていくための情報共有サービスです。
         </h2>
         <h2>
-          <%if session[:oauth] %>
+          <%- if session[:oauth] -%>
           ログイン中
           <%= image_tag (@twitter_user_photo_url, :size => "20x20")%>
           @<%= @twitter_user_screen_name%>          
-        <% end %>
+        <%- end -%>
       </h2>
         <div class="clear"></div>
       </div>
@@ -38,11 +38,11 @@
       <li><%= link_to "同志社なうとは!?", :action => :index %></li>
       <li><%= link_to "意見リスト", :action => :opinion %></li>
       <li><%= link_to "参加者リスト", :action=> :attendees %></li>
-      <% unless session[:oauth] %>
+      <%- unless session[:oauth] -%>
         <li><%= link_to "ログイン", :action => :oauth %></li>
-      <% else %>
+      <%- else -%>
         <li><%= link_to "ログアウト", :action => :logout %></li>
-      <% end %>
+      <%- end -%>
     </ul>
     <div class="clear"></div>
 
@@ -73,10 +73,10 @@
       <div id="post-box"></div>
       <div id = "tweetbox">
         <p>意見をつぶやく</p>
-        <% form_tag :action => 'tweet' do |text|%>
+        <%- form_tag :action => 'tweet' do |text| -%>
           <%= text_area_tag("tweettext"," #doshisha_now", :cols => 50) %>
           <%=submit_tag "Tweet"%>
-        <% end %>         
+        <%- end -%>         
       </div>
       <%= yield %>
     </div>

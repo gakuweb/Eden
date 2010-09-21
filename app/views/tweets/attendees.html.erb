@@ -1,12 +1,11 @@
 <p>同志社なうを使用したユーザ<p>
 <br>
-
-<% @attendees.each do |attendee|%>
-  <ul>
+<%- @attendees.each do |attendee| -%>
+  <ul class = attendees>
     <li>
-    <%= image_tag(attendee.profile_image_url, :size => "23x23")%>
+      <%= image_tag(attendee.profile_image_url, :size => "23x23")%>
       @<%= attendee.user%>
-  </li>
-</ul>
-<br>
-<% end %>
+    </li>
+  </ul>
+  <br>
+<%- end -%>

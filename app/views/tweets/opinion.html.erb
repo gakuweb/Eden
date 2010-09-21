@@ -1,31 +1,29 @@
 <br>
 <p>投稿された意見</p>
-<% count = 0 %>
-<br>
-<% @opinions.each do |opinion|%>
-  <ul>
+<%- count = 0 -%><br>
+<%- @opinions.each do |opinion|-%>
+  <ul class = opinions>
     <li>
       <%= image_tag(opinion.profile_image_url, :size => "25x25")%>  
       @<%= opinion.user%>
       <%= link_to_function (opinion.text){|page| page[:"#{count}"].toggle()}%>
-    </li>
-    <br>
-    <li style ="display:none;" id =<%=count%>>この意見に対して返信する<br>
-      <% form_tag (:action => 'reply', :replytext_id => opinion.id) do %>
+    </li><br>
+    <li style ="display:none;" id =<%=count%> class = replies>この意見に対して返信する<br>
+      <%- form_tag (:action => 'reply', :replytext_id => opinion.id) do -%>
         <%= text_area_tag("replytext","", :cols => 50) %>
         <%=submit_tag "返信"%>
-      <% end %>
-      <% @reply_opinions.each do |reply|%>
-        <% if reply.reply_number == opinion.id%>
+      <%- end -%>
+      <%- @reply_opinions.each do |reply|-%>
+        <%- if reply.reply_number == opinion.id-%>
           <%= reply.text%>
           @<%= reply.user%>
           <%= image_tag(reply.profile_image_url, :size => "23x23") %>
           <br>
           <br>
-        <% end %>
-      <% end %>
+        <%- end -%>
+      <%- end -%>
     </li>
     <br>
   </ul>
-  <% count += 1%>
-<% end %>
+  <%- count += 1-%>
+<%- end -%>

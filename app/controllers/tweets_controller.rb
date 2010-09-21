@@ -12,9 +12,10 @@ class TweetsController < ApplicationController
     @tweets = params[:word] ?
       Word.find(:first, :conditions => ['name = ?', params[:word]]).tweets.find(:all, :order =>:posted_at, :limit => 10) :
       Tweet.find(:all, :order => :posted_at, :limit => 10)
+
       if session[:oauth]
-        twitter_user_information = rubytterinfor
- 		    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
+        twitter_user_information  = rubytterinfor
+ 		    @twitter_user_photo_url   = twitter_user_information[:profile_image_url]
  		    @twitter_user_screen_name = twitter_user_information[:screen_name]
       end
   end
@@ -40,9 +41,9 @@ class TweetsController < ApplicationController
   end
 
   def oauth
-    request_token=consumer.get_request_token(:oauth_callback => "http://#{request.host_with_port}/tweets/callback")
-    session[:request_token]=request_token.token
- 	  session[:request_token_secret]=request_token.secret
+    request_token = consumer.get_request_token(:oauth_callback => "http://#{request.host_with_port}/tweets/callback")
+    session[:request_token] = request_token.token
+ 	  session[:request_token_secret] = request_token.secret
  	  redirect_to request_token.authorize_url
   end
 
@@ -76,7 +77,6 @@ class TweetsController < ApplicationController
   		session[:oauth_token] = access_token.token
   		session[:oauth_verifier] = access_token.secret
   		session[:user_id] = access_token.params[:user_id]
-  		access_time = Time.now
     	redirect_to :action => :index
     	rescue OAuth::Unauthorized
     		redirect_to :action => :index
@@ -92,12 +92,10 @@ class TweetsController < ApplicationController
 
   def tweet
     if session[:oauth]
-      token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
- 			rubytter = OAuthRubytter.new(token)
       text = params[:tweettext]
-      rubytter.update(text)
+      doshisha_now(text)
       opinion = Opinion.new
-      user_information = rubytter.user(session[:user_id])
+      user_information = rubytterinfor
       opinion.user = user_information[:screen_name]
       opinion.text = text
       opinion.profile_image_url = user_information[:profile_image_url]
@@ -143,16 +141,30 @@ class TweetsController < ApplicationController
   end
 
   def reply 
-    reply_text_id = params[:replytext_id]
-    reply_text = params[:replytext]
-    opinion = Opinion.new
-    user_infor = rubytterinfor
-    opinion.user = user_infor[:screen_name]
-    opinion.profile_image_url = user_infor[:profile_image_url]
-    opinion.text = reply_text
-    opinion.reply_number = reply_text_id
-    opinion.main_thema = "false"
-    opinion.save
-    redirect_to :action => :opinion
+    if session[:oauth]
+      reply_text_id = params[:replytext_id]
+      reply_text = params[:replytext]
+      opinion = Opinion.new
+      user_infor = rubytterinfor
+      opinion.user = user_infor[:screen_name]
+      opinion.profile_image_url = user_infor[:profile_image_url]
+      opinion.text = reply_text
+      opinion.reply_number = reply_text_id
+      opinion.main_thema = "false"
+      opinion.save
+      doshisha_now(reply_text)
+    end 
+      redirect_to :action => :opinion
+  end
+
+  def doshisha_now(text)
+    access_token_key = "192790072-Q2O0wrdZeO18QxP82ouYXKlNio7gvvfNfcerkGRb"
+    access_secret = "QIp9tpDZVgWjLR1F1LDrfU2jsXJVpIXehLpWRziw6oQ"
+    consumer_key = "hq7uacwN6iVSTfDnrQ2q9w"
+    consumer_secret = "Mx7dg36KqGehsfiCNLYAgE9nS7vaBBIPHcHLnDXi13s"
+    oauth = Twitter::OAuth.new(consumer_key, consumer_secret)
+    oauth.authorize_from_access(access_token_key, access_secret)
+    client = Twitter::Base.new(oauth)
+    client.update(text)
   end
 end
