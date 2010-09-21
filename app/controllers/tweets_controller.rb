@@ -12,10 +12,11 @@ class TweetsController < ApplicationController
     @tweets = params[:word] ?
       Word.find(:first, :conditions => ['name = ?', params[:word]]).tweets.find(:all, :order =>:posted_at, :limit => 10) :
       Tweet.find(:all, :order => :posted_at, :limit => 10)
-
-      twitter_user_information = rubytter
- 		  @twitter_user_photo_url = twitter_user_information[:profile_image_url]
- 		  @twitter_user_screen_name = twitter_user_information[:screen_name]
+      if session[:oauth]
+        twitter_user_information = rubytterinfor
+ 		    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
+ 		    @twitter_user_screen_name = twitter_user_information[:screen_name]
+      end
   end
 
   def is_meaningful(word)
@@ -95,30 +96,54 @@ class TweetsController < ApplicationController
  			rubytter = OAuthRubytter.new(token)
       text = params[:tweettext]
       rubytter.update(text)
+      opinion = Opinion.new
+      user_information = rubytter.user(session[:user_id])
+      opinion.user = user_information[:screen_name]
+      opinion.text = text
+      opinion.profile_image_url = user_information[:profile_image_url]
+      opinion.main_thema = "true"
+      opinion.save
     end
     redirect_to :action => :index    
   end
 
   def attendees
-    @friends = Twitter.follower_ids("doshisha_now")
-    twitter_user_information = rubytter
-    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
- 		@twitter_user_screen_name = twitter_user_information[:screen_name]
-
+    @attendees = Opinion.all
+      if session[:oauth]
+        twitter_user_information = rubytterinfor
+ 		    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
+ 		    @twitter_user_screen_name = twitter_user_information[:screen_name]
+      end
   end
 
   def opinion
-    twitter_user_information = rubytter
-    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
- 		@twitter_user_screen_name = twitter_user_information[:screen_name]
-    
+    @opinions = Opinion.find(:all,:conditions => {:main_thema => "true"})
+    @reply_opinions = Opinion.find(:all, :conditions => {:main_thema =>"false"})
+    if session[:oauth]
+        twitter_user_information = rubytterinfor
+ 		    @twitter_user_photo_url = twitter_user_information[:profile_image_url]
+ 		    @twitter_user_screen_name = twitter_user_information[:screen_name]
+      end
+ 
   end
 
-  def rubytter
+  def rubytterinfor
       token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
  		  rubytter = OAuthRubytter.new(token)
  		  return rubytter.user(session[:user_id])
   end
 
-
+  def reply 
+    reply_text_id = params[:replytext_id]
+    reply_text = params[:replytext]
+    opinion = Opinion.new
+    user_infor = rubytterinfor
+    opinion.user = user_infor[:screen_name]
+    opinion.profile_image_url = user_infor[:profile_image_url]
+    opinion.text = reply_text
+    opinion.reply_number = reply_text_id
+    opinion.main_thema = "false"
+    opinion.save
+    redirect_to :action => :opinion
+  end
 end

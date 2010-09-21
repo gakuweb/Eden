@@ -5,6 +5,7 @@ Eden::Application.routes.draw do
   get "tweets/logout"
   get "tweets/tweet"
   get "tweets/attendees"
+  get "tweets/reply"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

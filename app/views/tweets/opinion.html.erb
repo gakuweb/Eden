@@ -1,2 +1,28 @@
 <p>投稿された意見</p>
-<%= @collection_tweet%>
+<br>
+<% @opinions.each do |opinion|%>
+  <ul>
+    <li>
+  <%= image_tag(opinion.profile_image_url, :size => "25x25")%>  
+  @<%= opinion.user%>
+  <%= opinion.text%>
+  </li>
+  <br>
+  <dd>
+  <p>この意見に対して返信する</p>
+  <% form_tag (:action => 'reply', :replytext_id => opinion.id) do %>
+          <%= text_area_tag("replytext","", :cols => 50) %>
+          <%=submit_tag "返信"%>
+        <% end %>
+        <% @reply_opinions.each do |reply|%>
+          <% if reply.reply_number == opinion.id%>
+            <%= reply.text%>
+            @<%= reply.user%>
+            <%= image_tag(reply.profile_image_url, :size => "23x23") %>
+            <br>
+            <br>
+          <% end %>
+        <% end %>
+  <br>
+  </ul>
+<% end %>
