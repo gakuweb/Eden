@@ -108,9 +108,16 @@ class TweetsController < ApplicationController
   end
 
   def attendees
-    @attendees = Opinion.all
+    user_screen_name = []
+    Opinion.all.each do |opinion|
+      user_screen_name.push(opinion.user)
+    end
+    user_screen_name = user_screen_name.uniq
+    @attendees = []
+    user_screen_name.each do |user|
+      @attendees.push(Opinion.find(:first, :conditions => ['user = ?', user]))
+    end
    
-
     if session[:oauth]
      twitter_user_information = rubytterinfor
  	   @twitter_user_photo_url = twitter_user_information[:profile_image_url]
