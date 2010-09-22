@@ -67,8 +67,8 @@
         <%- form_tag :action => 'tweet' do -%>
           <%= text_area_tag("tweettext","", :cols => 80) %>
           <%=submit_tag "Tweet"%>
-          <%- end -%>
-          <%- else -%>
+        <%- end -%>
+        <%- else -%>
           <%- form_tag :action => 'tweet' do -%>
             <%= text_area_tag("tweettext","このサービスを利用するにはログインが必要です", :cols => 50, :disabled => true) %>
             <%=submit_tag "Tweet", :disabled => true%>
