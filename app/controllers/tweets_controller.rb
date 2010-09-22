@@ -91,10 +91,8 @@ class TweetsController < ApplicationController
   end
 
   def tweet
-    if session[:oauth]
-      text = params[:tweettext]
-      doshisha_now_tweet(text)
-      my_account_tweet(text)
+    text = params[:tweettext]
+    if text.length != 0
       opinion = Opinion.new
       user_information = rubytterinfor
       opinion.user = user_information[:screen_name]
@@ -102,8 +100,10 @@ class TweetsController < ApplicationController
       opinion.profile_image_url = user_information[:profile_image_url]
       opinion.main_thema = "true"
       opinion.save
+      my_account_tweet(text)
+      doshisha_now_tweet(text)
     end
-    redirect_to :action => :index    
+   redirect_to :action => :index    
   end
 
   def attendees
@@ -144,7 +144,7 @@ class TweetsController < ApplicationController
   end
 
   def reply 
-    if session[:oauth]
+    if reply_text.length != 0
       reply_text_id = params[:replytext_id]
       reply_text = params[:replytext]
       opinion = Opinion.new
@@ -156,8 +156,8 @@ class TweetsController < ApplicationController
       opinion.main_thema = "false"
       opinion.save
       doshisha_now_tweet(reply_text)
-    end 
-      redirect_to :action => :opinion
+    end
+    redirect_to :action => :opinion
   end
 
   def doshisha_now_tweet(text)
