@@ -93,7 +93,7 @@ class TweetsController < ApplicationController
   def tweet
     if session[:oauth]
       text = params[:tweettext]
-      doshisha_now(text)
+      doshisha_now_tweet(text)
       opinion = Opinion.new
       user_information = rubytterinfor
       opinion.user = user_information[:screen_name]
@@ -121,6 +121,8 @@ class TweetsController < ApplicationController
  	   @twitter_user_photo_url = twitter_user_information[:profile_image_url]
      @twitter_user_screen_name = twitter_user_information[:screen_name]
     end
+
+    @followers = doshisha_now_followers
   end
 
   def opinion
@@ -152,19 +154,28 @@ class TweetsController < ApplicationController
       opinion.reply_number = reply_text_id
       opinion.main_thema = "false"
       opinion.save
-      doshisha_now(reply_text)
+      doshisha_now_tweet(reply_text)
     end 
       redirect_to :action => :opinion
   end
 
-  def doshisha_now(text)
+  def doshisha_now_tweet(text)
+    client = doshisha_now
+    client.update(text)
+  end
+
+  def doshisha_now 
     access_token_key = "192790072-Q2O0wrdZeO18QxP82ouYXKlNio7gvvfNfcerkGRb"
     access_secret = "QIp9tpDZVgWjLR1F1LDrfU2jsXJVpIXehLpWRziw6oQ"
     consumer_key = "hq7uacwN6iVSTfDnrQ2q9w"
     consumer_secret = "Mx7dg36KqGehsfiCNLYAgE9nS7vaBBIPHcHLnDXi13s"
     oauth = Twitter::OAuth.new(consumer_key, consumer_secret)
     oauth.authorize_from_access(access_token_key, access_secret)
-    client = Twitter::Base.new(oauth)
-    client.update(text)
+    return Twitter::Base.new(oauth)
+  end
+
+  def doshisha_now_followers
+    twitter = doshisha_now
+    return twitter.followers
   end
 end

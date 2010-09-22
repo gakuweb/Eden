@@ -74,7 +74,7 @@
       <div id = "tweetbox">
         <p>意見をつぶやく</p>
         <%- form_tag :action => 'tweet' do |text| -%>
-          <%= text_area_tag("tweettext"," #doshisha_now", :cols => 50) %>
+          <%= text_area_tag("tweettext","", :cols => 50) %>
           <%=submit_tag "Tweet"%>
         <%- end -%>         
       </div>

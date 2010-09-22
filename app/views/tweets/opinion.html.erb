@@ -6,7 +6,9 @@
     <li>
       <%= image_tag(opinion.profile_image_url, :size => "25x25")%>  
       @<%= opinion.user%>
-      <%= link_to_function (opinion.text){|page| page[:"#{count}"].toggle()}%>
+      <%= opinion.text%>
+      返信数：<%= Opinion.count(:all, :conditions => {:reply_number => opinion.id})%>
+      <%= link_to_function ("詳細"){|page| page[:"#{count}"].toggle()}%>      
     </li><br>
     <li style ="display:none;" id =<%=count%> class = replies>この意見に対して返信する<br>
       <%- form_tag (:action => 'reply', :replytext_id => opinion.id) do -%>

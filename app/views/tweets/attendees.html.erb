@@ -1,4 +1,4 @@
-<p>同志社なうを使用したユーザ<p>
+<p>意見を投稿したユーザ<p>
 <br>
 <%- @attendees.each do |attendee| -%>
   <ul class = attendees>
@@ -8,4 +8,14 @@
     </li>
   </ul>
   <br>
+<%- end -%>
+
+<p>@doshisha_nowをフォローしているユーザ</p><br>
+<%- @followers.each do |follower|-%>
+  <ul class = followers>
+    <li>
+      <%= image_tag(follower[:profile_image_url], :size => "25x25")%>
+      @<%= follower[:screen_name]%>
+    </li>
+  </ul>
 <%- end -%>
