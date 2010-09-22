@@ -94,6 +94,7 @@ class TweetsController < ApplicationController
     if session[:oauth]
       text = params[:tweettext]
       doshisha_now_tweet(text)
+      my_account_tweet(text)
       opinion = Opinion.new
       user_information = rubytterinfor
       opinion.user = user_information[:screen_name]
@@ -178,4 +179,11 @@ class TweetsController < ApplicationController
     twitter = doshisha_now
     return twitter.followers
   end
+
+  def my_account_tweet(text) 
+      token = OAuth::AccessToken.new(self.consumer,session[:oauth_token],session[:oauth_verifier])
+ 		  rubytter = OAuthRubytter.new(token)
+      rubytter.update(text)
+  end
+
 end

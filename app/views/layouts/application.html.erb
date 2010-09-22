@@ -72,11 +72,18 @@
       <div id = "connectButton"></div>
       <div id="post-box"></div>
       <div id = "tweetbox">
-        <p>意見をつぶやく</p>
-        <%- form_tag :action => 'tweet' do |text| -%>
-          <%= text_area_tag("tweettext","", :cols => 50) %>
-          <%=submit_tag "Tweet"%>
-        <%- end -%>         
+        <p>意見をつぶやく</p>        
+        <%- if session[:oauth]-%>
+          <%- form_tag :action => 'tweet' do -%>
+            <%= text_area_tag("tweettext","", :cols => 50) %>
+            <%=submit_tag "Tweet"%>
+          <%- end -%>
+        <%- else -%>
+          <%- form_tag :action => 'tweet' do -%>
+            <%= text_area_tag("tweettext","このサービスを利用するにはログインが必要です", :cols => 50, :disabled => session[:oauth] != true) %>
+            <%=submit_tag "Tweet", :disabled => session[:oauht]!=true%>
+          <%- end -%>
+        <%- end -%>
       </div>
       <%= yield %>
     </div>
