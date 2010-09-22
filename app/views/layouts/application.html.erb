@@ -9,12 +9,6 @@
     </script>
   </head>
   <body>
-    <div id="topbar-outer">
-      <div id="topbar">
-        Twitterをスキャンして同志社のトレンドを集計しています。
-        現在<%= @tweet_count %>件のつぶやきを保存しています。
-      </div>
-    </div>
     <div id="header-outer">
       <div id="header">
         <h1><%= link_to "同志社なう", root_url %></h1>
@@ -27,8 +21,8 @@
           ログイン中
           <%= image_tag (@twitter_user_photo_url, :size => "20x20")%>
           @<%= @twitter_user_screen_name%>          
-        <%- end -%>
-      </h2>
+          <%- end -%>
+        </h2>
         <div class="clear"></div>
       </div>
     </div>
@@ -39,9 +33,9 @@
       <li><%= link_to "意見リスト", :action => :opinion %></li>
       <li><%= link_to "参加者リスト", :action=> :attendees %></li>
       <%- unless session[:oauth] -%>
-        <li><%= link_to "ログイン", :action => :oauth %></li>
+      <li><%= link_to "ログイン", :action => :oauth %></li>
       <%- else -%>
-        <li><%= link_to "ログアウト", :action => :logout %></li>
+      <li><%= link_to "ログアウト", :action => :logout %></li>
       <%- end -%>
     </ul>
     <div class="clear"></div>
@@ -49,36 +43,32 @@
     <div id="main">
       <ul id="how-to">
         <li>
-          <h3>1. Twitterで同志社なうをフォローしよう！</h3>
-          <p>同志社なうをフォローすると、みんなのつぶやいた意見がTwitterに届くよ！</p>
-          <p>@doshisha_now</p>
+        <h3>1. Twitterで同志社なうを<br />フォローしよう！</h3>
+        <p>同志社なうをフォローすると、みんなのつぶやいた意見がTwitterに届くよ！</p>
+        <p class="link"><%= link_to "@doshisha_now", "http://twitter.com/doshisha_now" %></p>
         </li>
         <li>
-          <h3>2. 意見を気軽につぶやいてみんなで共有しよう！</h3>
-          <p>意見をつぶやくと、参加者みんなにつぶやきが届いて意見をもらえるよ！</p>
-          <%= link_to "意見をつぶやく", :action => :index, :anchor => "tweetbox" %>
+        <h3>2. 意見を気軽につぶやいて<br />みんなで共有しよう！</h3>
+        <p>意見をつぶやくと、参加者みんなにつぶやきが届いて意見をもらえるよ！</p>
+        <p class="link"><%= link_to "意見をつぶやく", :action => :index, :anchor => "tweetbox" %></p>
         </li>
         <li>
-          <h3>3. 他の人の意見を見て、どんどん返信しよう！</h3>
-          <p>人の意見に対して、更に意見が思いついたらどんどん返信しよう！</p>
-          <%= link_to "意見リストを見る", :action => :opinion %>
+        <h3>3. 他の人の意見を見て、<br />どんどん返信しよう！</h3>
+        <p>人の意見に対して、更に意見が思いついたらどんどん返信しよう！</p>
+        <p class="link"><%= link_to "意見リストを見る", :action => :opinion %></p>
         </li> 
       </ul>
       <div class="clear"></div>
 
-      <div id="bread">
-        <%= link_to "HOME", root_url %> &gt;
-      </div>
       <div id = "connectButton"></div>
-      <div id="post-box"></div>
-      <div id = "tweetbox">
-        <p>意見をつぶやく</p>        
+      <div id = "tweet-box">
+        <h3>意見をつぶやく</h3>
         <%- if session[:oauth]-%>
-          <%- form_tag :action => 'tweet' do -%>
-            <%= text_area_tag("tweettext","", :cols => 50) %>
-            <%=submit_tag "Tweet"%>
+        <%- form_tag :action => 'tweet' do -%>
+          <%= text_area_tag("tweettext","", :cols => 80) %>
+          <%=submit_tag "Tweet"%>
           <%- end -%>
-        <%- else -%>
+          <%- else -%>
           <%- form_tag :action => 'tweet' do -%>
             <%= text_area_tag("tweettext","このサービスを利用するにはログインが必要です", :cols => 50, :disabled => true) %>
             <%=submit_tag "Tweet", :disabled => true%>
@@ -88,20 +78,16 @@
       <%= yield %>
     </div>
 
-    <div id="footer-outer">
-      <div id="footer">
-        &#169;2010 gakuweb.com all rights reserved    
-      </div>
-    </div>
+        <div id="footer-outer">
+          <div id="footer">
+            &#169;2010 gakuweb.com all rights reserved    
+          </div>
+        </div>
 
-    <script type="text/javascript">
-      twttr.anywhere(function(twitter) {
-        //           twitter("#post-box").tweetBox({
-          //  label: "意見をつぶやく",
-           // defaultContent: ""
-           // });
-    twitter.hovercards();                   
-      });
-    </script>
+        <script type="text/javascript">
+          twttr.anywhere(function(twitter) {
+              twitter.hovercards();                   
+              });
+</script>
   </body>
 </html>

@@ -12,39 +12,50 @@ ul        { list-style-type: none; }
 #topbar   { width: 920px; }
 #menu>li  { width: 150px; }
 #how-to>li{ width: 260px; }
+#how-to .link
+          { width: 150px; }
 h1        { width: 30%; }
 h2        { width: 70%; }
 
 /* border */
-#main     { border: solid 2px #aaa; }
+#main,
+.words    { border: solid 1px #aaa; }
 #menu>li  {
-    border-left: solid 2px #aaa;
-    border-top:  solid 2px #aaa;
-    border-right:solid 2px #aaa; }
-#bread    { border-bottom: solid 2px #aaa; }
-
+    border-left: solid 1px #aaa;
+    border-top:  solid 1px #aaa;
+    border-right:solid 1px #aaa; }
 
 /* margin */
+#how-to .link,
 #main,
 #header,
 #menu,
 #footer,
 #topbar   { margin: 0 auto; }
+#header,
 #post-box,
-#bread,
 #how-to,
+#footer,
+.tweets,
+#tweet-box,
 .words    { margin-bottom: 30px; }
 #main h3  { margin-bottom: 10px; }
 #menu>li:first-child
           { margin-left: 30px; }
 #menu>li  { margin-right: 5px; }
 #how-to>li{ margin: 0 10px; }
+#footer   { margin-top: 30px; }
+#how-to .link
+          { margin-top: 10px; }
 
 /* padding */
+#main     { padding: 20px; }
 #menu>li>a{ padding: 5px; }
 #how-to>li{ padding: 10px; } 
 .words    { padding: 30px; }
 .words > a{ padding: 10px; }
+#how-to .link a
+          { padding: 0 5px; }
 
 /* float */
 .clear    { clear: both; }
@@ -52,51 +63,35 @@ h1,
 h2,
 #menu>li,
 #how-to>li{ float: left; }
+#how-to .link a,
 #menu>li>a{ display: block; }
 
 /* font */
 body      { font-size: 12px; }
-h1        { font-size: 40px; }
+h1        { font-size: 24px; }
 h2        { font-size: 12px; }
-h3        { font-size: 20px; }
-h1,
-h2        { font-weight: normal; }
+h3        { font-size: 16px; }
+#how-to .link,
 #menu>li,
 #footer   { text-align: center; }
 h2,
 #topbar   { text-align: right; }
 
+#how-to .link a,
+#how-to .link a:hover,
+#how-to .link a:visited,
 h1 a,
 h1 a:hover,
-h1 a:visited
+h1 a:visited,
+#menu>li a,
+#menu>li a:hover,
+#menu>li a:visited
           { text-decoration: none; }
+h1,
+h2        { font-weight: normal; }
+#how-to,
+#menu     { font-weight: bold; }
 
-
-#topbar {
-  padding: 5px 0;
-  margin-bottom: 20px;
-}
-
-#header {
-  margin-bottom: 30px;
-}
-
-#footer {
-  margin-top: 30px;
-}
-
-
-#main {
-  padding: 20px;
-  border-radius: 10px;
-  -moz-border-radius: 30px;
-  -webkit-border-radius: 10px;
-  background-color: #eee;
-}
-
-.tweets {
-  margin-bottom: 30px;
-}
 
 
 /* radius */
@@ -105,22 +100,31 @@ h1 a:visited
   -moz-border-radius:     10px 10px 0 0;
   -webkit-border-radius:  10px 10px 0 0;
 }
+#main {
+  border-radius:          30px;
+  -moz-border-radius:     30px;
+  -webkit-border-radius:  30px;
+}
+#how-to .link,
+.words,
 #how-to>li {
   border-radius:          10px;
   -moz-border-radius:     10px;
   -webkit-border-radius:  10px;
 }
-.words    {
-  border-radius:          30px;
-  -moz-border-radius:     30px;
-  -webkit-border-radius:  30px;
-}
 
 
 /* color */
+a,
+a:hover,
+a:visited     { color: #0099CC; }
+body          { background-color: #F0F0F0; }
+#main         { background-color: #fff; }
 .words        { background-color: #fff; }
 #topbar-outer { background-color: #AEE1FA; }
-#menu>li      { background-color: #ddd; }
-#menu>li>a:hover
-              { background-color: #bbb; }
-#how-to>li    { background-color: #fff; }
+#menu>li      { background-color: #fff; }
+#menu>li.here { background-color: #ffff00; }
+#how-to       { color: #fff; }
+#how-to h3    { color: #ff0; }
+#how-to>li    { background-color: #00BBEE; }
+#how-to .link { background-color: #FFFF00; }

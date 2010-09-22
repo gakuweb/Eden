@@ -1,6 +1,4 @@
 class TweetsController < ApplicationController
-  before_filter :tweet_count
-
   def index
     @words = []
     words = Word.find(:all,:order => 'count DESC', :conditions => ['count >= ?', 10])
@@ -34,10 +32,6 @@ class TweetsController < ApplicationController
     else
       return true
     end
-  end
-
-  def tweet_count
-    @tweet_count = Tweet.count(:all)
   end
 
   def oauth
