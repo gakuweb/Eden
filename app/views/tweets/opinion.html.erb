@@ -12,8 +12,8 @@
     </li><br>
     <li style ="display:none;" id =<%=count%> class = replies>この意見に対して返信する<br>
       <%- form_tag (:action => 'reply', :replytext_id => opinion.id) do -%>
-        <%= text_area_tag("replytext","", :cols => 50) %>
-        <%=submit_tag "返信"%>
+        <%= text_area_tag("replytext","", :cols => 50, :disabled => session[:oauth] != true) %>
+        <%=submit_tag "返信", :disabled => session[:oauth] != true%>
       <%- end -%>
       <%- @reply_opinions.each do |reply|-%>
         <%- if reply.reply_number == opinion.id-%>
