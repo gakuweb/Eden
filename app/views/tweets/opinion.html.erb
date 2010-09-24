@@ -11,6 +11,7 @@
   </ul>
 </p>
 <%- count = 0 -%><br>
+<%- reply_count = 0-%>
 <%- @opinions.each do |opinion|-%>
   <ul class = opinions>
     <li>
@@ -18,13 +19,17 @@
       @<%= opinion.user%>
       <%= opinion.text%>
       返信数：<%= Opinion.count(:all, :conditions => {:reply_number => opinion.id})%>
+      <%= link_to_function ("返信"){|page| page[:"reply_box#{reply_count}"].toggle()}%>
       <%= link_to_function ("詳細"){|page| page[:"#{count}"].toggle()}%>      
-    </li><br>
-    <li style ="display:none;" id =<%=count%> class = replies>この意見に対して返信する<br>
+      </li><br>
+      <li style = "display:none;" id = reply_box<%=reply_count%>>
+      この意見に対して返信する
       <%- form_tag (:action => 'reply', :replytext_id => opinion.id) do -%>
         <%= text_area_tag("replytext","", :cols => 50, :disabled => session[:oauth] != true) %>
         <%=submit_tag "返信", :disabled => session[:oauth] != true%>
       <%- end -%>
+      </li>
+      <li style ="display:none;" id =<%=count%> class = replies>
       <%- @reply_opinions.each do |reply|-%>
         <%- if reply.reply_number == opinion.id-%>
           <%= reply.text%>
@@ -38,4 +43,5 @@
     <br>
   </ul>
   <%- count += 1-%>
+  <%- reply_count += 1-%>
 <%- end -%>
