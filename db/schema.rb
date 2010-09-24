@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20100921051231) do
     t.string   "profile_image_url"
     t.integer  "reply_number"
     t.string   "main_thema"
+    t.integer  "reply_quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

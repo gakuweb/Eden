@@ -93,6 +93,7 @@ class TweetsController < ApplicationController
       opinion.text = text
       opinion.profile_image_url = user_information[:profile_image_url]
       opinion.main_thema = "true"
+      opinion.reply_quantity = 0
       opinion.save
       my_account_tweet(text)
       doshisha_now_tweet(text)
@@ -121,7 +122,13 @@ class TweetsController < ApplicationController
   end
 
   def opinion
-    @opinions = Opinion.find(:all,:conditions => {:main_thema => "true"}, :order =>"created_at desc")
+    order = params[:doing]
+    if order 
+      @opinions = Opinion.find(:all,:conditions => {:main_thema => "true"}, :order =>"#{order}")
+    else 
+     @opinions = Opinion.find(:all,:conditions => {:main_thema => "true"}, :order =>"created_at desc")  
+    end
+
     @reply_opinions = Opinion.find(:all, :conditions => {:main_thema =>"false"}, :order => "created_at desc")
     if session[:oauth]
         twitter_user_information = rubytterinfor
@@ -149,7 +156,10 @@ class TweetsController < ApplicationController
       opinion.reply_number = reply_text_id
       opinion.main_thema = "false"
       opinion.save
-      reply_user = Opinion.find_by_id(reply_text_id)
+      main_opinion = Opinion.find_by_id(reply_text_id)
+      main_opinion.reply_quantity += 1
+      main_opinion.save
+      reply_user = main_opinion
       doshisha_now_tweet("@#{reply_user.user}"+" "+"#{reply_text}")
     end
     redirect_to :action => :opinion
@@ -180,5 +190,4 @@ class TweetsController < ApplicationController
  		  rubytter = OAuthRubytter.new(token)
       rubytter.update(text)
   end
-
 end

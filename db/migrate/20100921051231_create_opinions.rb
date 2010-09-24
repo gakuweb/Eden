@@ -6,6 +6,7 @@ class CreateOpinions < ActiveRecord::Migration
       t.string :profile_image_url
       t.integer :reply_number
       t.string  :main_thema
+      t.integer :reply_quantity
       t.timestamps
     end
   end

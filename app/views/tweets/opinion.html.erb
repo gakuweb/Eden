@@ -3,22 +3,22 @@
 <p>
   <ul class = order>
     <li>
-      最新順
+    <%= link_to "最新順", :doing => "created_at desc" %>
     </li>
     <li>
-      返信数順
+    <%= link_to "返信数順", :doing => "reply_quantity desc" %>
     </li>
   </ul>
 </p>
 <%- count = 0 -%><br>
-<%- reply_count = 0-%>
+<%- reply_count = 0 -%>
 <%- @opinions.each do |opinion|-%>
   <ul class = opinions>
     <li>
       <%= image_tag(opinion.profile_image_url, :size => "25x25")%>  
       @<%= opinion.user%>
       <%= opinion.text%>
-      返信数：<%= Opinion.count(:all, :conditions => {:reply_number => opinion.id})%>
+      返信数：<%= opinion.reply_quantity%>
       <%= link_to_function ("返信"){|page| page[:"reply_box#{reply_count}"].toggle()}%>
       <%= link_to_function ("詳細"){|page| page[:"#{count}"].toggle()}%>      
       </li><br>
